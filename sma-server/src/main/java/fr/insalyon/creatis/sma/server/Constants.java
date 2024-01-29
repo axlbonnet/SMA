@@ -44,6 +44,8 @@ public class Constants {
     public static final String LAB_MAIL_HOST = "mail.host";
     public static final String LAB_MAIL_PROTOCOL = "mail.transport.protocol";
     public static final String LAB_MAIL_FROM = "mail.from";
+    public static final String LAB_MAIL_USER = "mail.user";
+    public static final String LAB_MAIL_PASS = "mail.pass";
     public static final String LAB_MAIL_FROM_NAME = "mail.from.name";
     public static final String LAB_MAIL_MAX_RUNS = "mail.max.simultaneous.runs";
 }

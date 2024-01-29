@@ -43,10 +43,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.Security;
 import java.util.Date;
 import java.util.Properties;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import org.apache.log4j.Logger;
@@ -92,11 +89,19 @@ public class MessagePoolBusiness {
             logger.info("Sending email to: " + recipients.toString());
             Configuration conf = Configuration.getInstance();
             Properties props = new Properties();
-            props.setProperty("mail.transport.protocol", conf.getMailProtocol());
-            props.setProperty("mail.host", conf.getMailHost());
+            props.put("mail.transport.protocol", conf.getMailProtocol());
+            props.put("mail.smtp.host", conf.getMailHost());
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.ssl.trust", conf.getMailHost());
+            props.put("mail.smtp.debug", "true");
 
-            Session session = Session.getDefaultInstance(props);
-            session.setDebug(false);
+            Session session = Session.getInstance(props, new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(conf.getMailUser(), conf.getMailPassword());
+                }
+            });
 
             MimeMessage mimeMessage = new MimeMessage(session);
             mimeMessage.setContent(content, "text/html");
@@ -134,7 +139,7 @@ public class MessagePoolBusiness {
             logger.error(ex);
             throw new BusinessException(ex);
         } catch (MessagingException ex) {
-            logger.error(ex);
+            logger.error("Error sending email", ex);
             throw new BusinessException(ex);
         }
     }

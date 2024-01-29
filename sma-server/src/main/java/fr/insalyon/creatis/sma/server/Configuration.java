@@ -51,6 +51,8 @@ public class Configuration {
     private int maxHistory;
     private int maxRetryCount;
     private String mailHost;
+    private String mailUser;
+    private String mailPass;
     private String mailProtocol;
     private String mailFrom;
     private String mailFromName;
@@ -73,6 +75,8 @@ public class Configuration {
             maxHistory = config.getInt(Constants.LAB_AGENT_MAX_HISTORY, 90);
             maxRetryCount = config.getInt(Constants.LAB_AGENT_RETRYCOUNT, 5);
             mailHost = config.getString(Constants.LAB_MAIL_HOST, "smtp.localhost");
+            mailUser = config.getString(Constants.LAB_MAIL_USER, "");
+            mailPass = config.getString(Constants.LAB_MAIL_PASS, "");
             mailProtocol = config.getString(Constants.LAB_MAIL_PROTOCOL, "smtp");
             mailFrom = config.getString(Constants.LAB_MAIL_FROM, "example@example.com");
             mailFromName = config.getString(Constants.LAB_MAIL_FROM_NAME, "Example");
@@ -82,6 +86,8 @@ public class Configuration {
             config.setProperty(Constants.LAB_AGENT_MAX_HISTORY, maxHistory);
             config.setProperty(Constants.LAB_AGENT_RETRYCOUNT, maxRetryCount);
             config.setProperty(Constants.LAB_MAIL_HOST, mailHost);
+            config.setProperty(Constants.LAB_MAIL_USER, mailUser);
+            config.setProperty(Constants.LAB_MAIL_PASS, mailPass);
             config.setProperty(Constants.LAB_MAIL_PROTOCOL, mailProtocol);
             config.setProperty(Constants.LAB_MAIL_FROM, mailFrom);
             config.setProperty(Constants.LAB_MAIL_FROM_NAME, mailFromName);
@@ -124,5 +130,13 @@ public class Configuration {
 
     public int getMailMaxRuns() {
         return mailMaxRuns;
+    }
+
+    public String getMailUser() {
+        return mailUser;
+    }
+
+    public String getMailPassword() {
+        return mailPass;
     }
 }
